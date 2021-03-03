@@ -1,0 +1,224 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <!-- <ion-button fill="clear" routerLink="/tabs" routerDirection="backward">
+        <ion-icon slot="icon-only" src="assets/custom-icon-tc-shop/back.svg"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+    <ion-title class="ecom-title">{{ProductName}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon class="cart-badge" name="cart"></ion-icon>
+        <!-- <ion-badge color="secondary">0</ion-badge> -->
+        <ion-badge>{{total_cart}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content" *ngIf="gridVisiable">
+
+
+  <ion-row>
+    <ion-col style="align-items: center; margin-left: 5px;">
+      <h1>
+        {{ProductName}},
+      </h1>
+      <!-- <ion-col>
+      
+      </ion-col>
+      <ion-col> -->
+      <!-- <div>
+          <ion-button expand="outline" size="small">
+            <ion-label class="heading_lbl">{{productPricing.product_discount.margin}} %</ion-label>
+          </ion-button>
+        </div> -->
+      <!-- </ion-col> -->
+
+      <div *ngIf="productPricing.length < 1;">
+        1 {{Data.unit_name}}
+      </div>
+      <div *ngIf="productPricing.length">
+        <ion-select #S [(ngModel)]="filtermonthwise" placeholder="Select Gram"
+          (ionChange)="ProductPricingChange(S.value)" okText="Select" cancelText="Dismiss">
+          <ion-select-option *ngFor="let pp of productPricing" [value]="pp">
+            {{pp.package_name}}</ion-select-option>
+        </ion-select>
+      </div>
+    </ion-col>
+
+  </ion-row>
+  <ion-row>
+    <ion-col style="margin-left: 5px;" class="woo-price-group ion-no-padding" size="12">
+
+      <div *ngIf="productPricing.length < 1; else elseBlock">
+        <span class="woo-price">
+          ₹ {{Data.price}}</span>
+      </div>
+
+
+      <ng-template #elseBlock>
+        <div lines="none">
+          <span class="woo-price">
+            ₹ {{convertedPrice}}</span>
+        </div>
+      </ng-template>
+
+      <span>{{Data.stock}} </span>
+    </ion-col>
+  </ion-row>
+  <div class="icons">
+    <span>
+      <!-- -->
+    </span>
+    <!-- <ion-icon name="share" (click)="share()"></ion-icon> -->
+    <ion-icon color="primary" name="share-social-outline" (click)="share()"></ion-icon>
+    <ion-icon *ngIf="heart" name="heart" (click)="clickWishList()"></ion-icon>
+    <ion-icon *ngIf="!heart" name="heart-outline" (click)="clickWishList()"></ion-icon>
+
+
+  </div>
+  <ion-slides class="product-slides" pager="true">
+    <ion-slide *ngFor="let slide of slides">
+      <div>
+        <img src="https://mjdmart.com/public/product_images/{{slide.image_name}}" imageViewer>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <div class="slider_div">
+    <ion-slides [options]="slideOpts">
+      <ion-slide *ngFor="let slide of slides">
+        <div class="slide_image">
+
+          <ion-thumbnail>
+            <img src="https://mjdmart.com/public/product_images/{{slide.image_name}}">
+          </ion-thumbnail>
+
+
+
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <ion-grid class="product-description ion-no-padding">
+    <h2>Product Description</h2>
+    <div class="detail-para" [innerHTML]="Data.product_detail"></div>
+
+  </ion-grid>
+
+  <ion-row>
+    <ion-col size="6" style="align-items: center;">
+      <ion-rating [(ngModel)]="rate" size="default" (ngModelChange)="onModelChange($event)">
+      </ion-rating>
+    </ion-col>
+    <ion-col size="6" style="align-items: center;">
+      <ion-button fill="clear" (click)="openReviewsPage()">
+        <ion-label> Write a review</ion-label>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <br>
+  <ion-grid no-padding class="product-detail-content animate-product ion-no-padding">
+    <ion-row no-padding>
+
+      <ion-col class="ion-no-padding" size="12">
+        <h3 class="related-item">Related Items</h3>
+        <div>
+          <ion-slides class="animated bounceInRight delay-900ms" [options]="sliderConfig">
+            <ion-slide *ngFor="let p of data; let i = index">
+              <ion-card style="width: 100%;">
+                <div class="dhe" (click)="goToProductDetail(p.id)">
+                  <img src="https://mjdmart.com/public/product_images/{{p.default_image}}" />
+                  <p>{{p.product_name}}</p>
+
+                  <div *ngIf="data[i].product_pricing.showDatass == false">
+                    <span class="woo-price">
+                      ₹ {{p.product_price_after_discount}}</span>
+                  </div>
+
+                  <div *ngIf="data[i].product_pricing.showDatass == true">
+                    <div>
+                      <span class="woo-price">
+                        ₹ {{offerconvertedPrice}}</span>
+
+                      <ion-select #S [(ngModel)]="offergramValue" placeholder="Select Gram"
+                        (ionChange)="OfferProductPricingChange(S.value)" okText="Select" cancelText="Dismiss">
+                        <ion-select-option *ngFor="let pp of offerproductPricing" [value]="pp">
+                          {{pp.package_name}}</ion-select-option>
+                      </ion-select>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="div-recent-btn">
+                  <ion-button color="primary"
+                    (click)="goToCartOffer(p.id,p.product_price_after_discount,p.name,data[i].product_pricing)">
+                    <ion-label color="light">
+                      Add to cart
+                    </ion-label>
+                  </ion-button>
+                </div>
+              </ion-card>
+            </ion-slide>
+            <ion-slide>
+              <ion-button (click)="GotoRealedProductPage()" fill="clear" class="icon-shop-more">
+                Shop More
+
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+
+
+              </ion-button>
+            </ion-slide>
+          </ion-slides>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- 
+  <ion-grid no-padding class="product-detail-content animate-product ion-no-padding">
+    <ion-row no-padding>
+      <ion-col class="ion-no-padding" size="12">
+        <h3 class="related-item">Related Items</h3>
+        <div>
+          <ion-slides class="animated bounceInRight delay-900ms" [options]="sliderConfig">
+            <ion-slide *ngFor="let p of data">
+              <ion-card>
+                <img src="https://mjdmart.com/public/product_images//{{p.default_image}}"
+                  (click)="goToProductDetail(p.id)" />
+                <p>{{p.product_name}}</p>
+                <p><span> ₹ {{p.product_price}}</span></p>
+                <div class="div-recent-btn">
+                  <ion-button color="primary" (click)="goToCartRelated(p.id,p.price)">
+                    <ion-label color="light">
+                      Add to cart
+                    </ion-label>
+                  </ion-button>
+                </div>
+              </ion-card>
+            </ion-slide>
+            <ion-slide>
+              <ion-button routerLink="/products/''/''" routerDirection="forward" fill="clear" class="icon-shop-more">
+                Shop More
+
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+
+
+              </ion-button>
+            </ion-slide>
+          </ion-slides>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+</ion-content>
+
+<ion-footer>
+  <ion-button (click)="goToCart()">ADD TO CART </ion-button>
+</ion-footer>

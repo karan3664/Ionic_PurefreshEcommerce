@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <!-- <ion-button fill="clear" routerLink="/tabs" routerDirection="backward">
+        <ion-icon slot="icon-only" src="assets/custom-icon-tc-shop/back.svg"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+    <ion-label>
+      {{CategoryName}}
+    </ion-label>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToSearchPage()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon class="cart-badge" name="cart-outline"></ion-icon>
+        <ion-badge>{{total_cart}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content>
+
+  <div class="mainContent">
+    <div class="foodsContent">
+      <div class="card_div">
+
+        <div class="card" *ngFor="let p of data;let i = index">
+          <div class="mainCat">
+           
+            <img src="https://mjdmart.com/public/product_images/{{p.default_image}}" alt=""
+              class="image_div"  (click)="goToProductDetail(p.id)">
+            <div class="desc_div">
+
+              <ion-grid>
+                <ion-row>
+                  <ion-col style="align-self: center;">
+                    <ion-label class="heading_lbl">{{p.product_name}}</ion-label>
+                  </ion-col>
+                  <ion-col style="align-items: center; text-align: center;">
+                    <div *ngIf="data[i].product_pricing.showData == true">
+                      <div>
+                        <ion-button expand="outline" size="small">
+                          <ion-label class="heading_lbl">{{DDP}} %</ion-label>
+
+                        </ion-button>
+                      </div>
+
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+
+              <ion-label class="small_lbl">
+
+                <div *ngIf="data[i].product_pricing.showData == false">
+                  <span class="woo-price">
+                    ₹ {{p.product_price}}</span>
+                  <p>
+                    1 {{p.unit_name}}
+                  </p>
+                </div>
+
+                <div *ngIf="data[i].product_pricing.showData == true">
+                  <span class="woo-price">
+                    ₹ {{convertedPrice}}</span>
+
+                  <ion-select #S [(ngModel)]="gramValue" placeholder="Select Gram"
+                    (ionChange)="ProductPricingChange(S.value)" okText="Select" cancelText="Dismiss">
+                    <ion-select-option *ngFor="let pp of productPricing" [value]="pp">
+                      {{pp.package_name}}</ion-select-option>
+                  </ion-select>
+                </div>
+              </ion-label>
+              <!-- <ion-label class="small_lbl">$ {{item.price}}</ion-label> -->
+            </div>
+            
+            <div class="cartBtn">
+              <ion-button expand="block" size="small" color="danger">
+                <ion-label 
+                  (click)="goToCart(p.id,p.product_price_after_discount,p.product_name,data[i].product_pricing)">Add
+                  <!-- <ion-icon name="add"></ion-icon> -->
+                </ion-label>
+              </ion-button>
+
+
+
+            </div>
+            <!-- <div class="cartBtn2" *ngIf="quantiy > 0">
+            <ion-button (click)="removeQ(i)" fill="clear" size="small">
+              <ion-icon name="remove"></ion-icon>
+            </ion-button>
+            <p class="qunitity">{{quantiy}}</p>
+            <ion-button (click)="addQ(i)" fill="clear" size="small">
+              <ion-icon name="add"></ion-icon>
+            </ion-button>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+
+</ion-content>
+
+
+<ion-footer class="products-footer">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+
+      <ion-button (click)="changeLayout()">
+        <ion-icon src="assets/interface.svg">
+
+        </ion-icon>
+
+
+        <ion-select #S [(ngModel)]="sortby" value="new" okText="Okay" (ionChange)="SortByOrder(S.value)"
+          cancelText="Dismiss">
+          <ion-select-option value="old">Old</ion-select-option>
+          <ion-select-option value="new">Latest</ion-select-option>
+          <ion-select-option value="price_low">Price (Low to High)</ion-select-option>
+          <ion-select-option value="price_high">Price (High to Low)</ion-select-option>
+          <ion-select-option value="name_a_z">Name (A to Z)</ion-select-option>
+          <ion-select-option value="name_z_a">Name (Z to A)</ion-select-option>
+        </ion-select>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="refresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+      <ion-menu-button (click)="openRightMenu()">
+        <ion-icon name="funnel"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

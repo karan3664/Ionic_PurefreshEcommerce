@@ -1,0 +1,57 @@
+{
+  "_from": "com.razorpay.cordova",
+  "_id": "com.razorpay.cordova@1.4.12",
+  "_inBundle": false,
+  "_integrity": "sha512-7vkTSP6K3jw6N9uLUDp/AzAEh60zvmb1i2qE9ik43ugBfF0sg4iryH0J0E/Z4BzWKUqqSrOshbJGohW7ZczoRw==",
+  "_location": "/com.razorpay.cordova",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "com.razorpay.cordova",
+    "name": "com.razorpay.cordova",
+    "escapedName": "com.razorpay.cordova",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/com.razorpay.cordova/-/com.razorpay.cordova-1.4.12.tgz",
+  "_shasum": "50ed3ff3fb47e5dc105506e11bb5d9697af0fc55",
+  "_spec": "com.razorpay.cordova",
+  "_where": "D:\\IONIC Projects\\Purefresh Ecommerce",
+  "author": {
+    "name": "Razorpay Developers",
+    "email": "developers@razorpay.com",
+    "url": "https://razorpay.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/razorpay/razorpay-cordova/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Cordova/Phonegap bindings for Razorpay's Mobile SDKs",
+  "homepage": "https://github.com/razorpay/razorpay-cordova#readme",
+  "keywords": [
+    "razorpay",
+    "ecosystem:cordova",
+    "cordova",
+    "phonegap",
+    "ionic",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-browser"
+  ],
+  "license": "ISC",
+  "main": "Readme.md",
+  "name": "com.razorpay.cordova",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razorpay/razorpay-cordova.git"
+  },
+  "scripts": {},
+  "version": "1.4.12"
+}

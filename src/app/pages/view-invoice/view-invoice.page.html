@@ -1,0 +1,249 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" routerLink="/my-order" routerDirection="backward">
+        <ion-icon slot="icon-only" src="assets/custom-icon-tc-shop/back.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="light">View Invoice</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content class="order-content" *ngIf="Data">
+  <ion-card>
+    <ion-card-header>
+      <h4>Invoice</h4>
+    </ion-card-header>
+    <ion-card-content class="card-content-single">
+      <p class="para-single-line">
+        # {{OrderID}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <h4>Shipping Address</h4>
+    </ion-card-header>
+    <ion-card-content class="card-content-single">
+      <p class="para-single-line">
+        {{name}}<br>
+        {{mobile}}<br>
+        {{email}}<br>
+        {{address}}<br>
+        {{lang_mark}}<br>
+        {{city}} {{state}} {{pincode}}
+
+
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="order-product">
+    <ion-card-header>
+      <h4>Products</h4>
+    </ion-card-header>
+    <ion-card-content *ngFor="let poitem of Data; let i = index">
+
+      <ion-item no-padding lines="none">
+
+        <ion-thumbnail style="height: 50px; width: 50px;"
+          *ngIf="poitem.product_detail.default_image === null; else elseBlock" slot="start">
+          <img class="img-list" src="assets/diet.svg">
+        </ion-thumbnail>
+
+        <ng-template #elseBlock>
+          <ion-thumbnail style="height: 500px; width: 50px;" slot="start">
+            <img class="img-list"
+              src="https://mjdmart.com/public/product_images/{{poitem.product_detail.default_image}}">
+
+          </ion-thumbnail>
+        </ng-template>
+
+        <ion-label>
+          <ion-label>
+            <p> {{ poitem.product_detail.product_name }}</p>
+          </ion-label>
+
+          <p> x {{ poitem.data.qty }}</p>
+
+          <div *ngIf="poitem.showData  == false">
+            <p>₹ {{ poitem.data.price }}</p>
+            <div *ngIf="poitem.data.tax_type !== null"> +
+              {{poitem.data.total_price_tax}}</div>
+          </div>
+          <div *ngIf="poitem.showData == true">
+            <p>₹ {{ getpackageprice(poitem.data) }}</p>
+            <p>Available in. </p>
+            <ion-label>
+              <p>{{ getpackagename(poitem.data) }} x
+                {{ poitem.data.qty }}
+               ₹ {{ getpackageprice(poitem.data) }}
+              </p>
+            </ion-label>
+          </div>
+        </ion-label>
+
+
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-header>
+      <h4>Status</h4>
+    </ion-card-header>
+    <ion-card-content class="card-content-single">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" style="text-align: start;">
+            <ion-label>
+              Payment Type :
+            </ion-label>
+          </ion-col>
+          <ion-col size="6" style="text-align: end;">
+            <ion-label>
+              {{PaymentType}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6" style="text-align: start;">
+            <ion-label>
+              Delivery Status :
+            </ion-label>
+          </ion-col>
+          <ion-col size="6" style="text-align: end;">
+            <ion-label>
+              {{DeliveryStatus}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+
+
+  <ion-card>
+    <ion-card-header>
+      <h4>Sub Total</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row class="row-subtotal">
+        <ion-col size="6">
+          <p>
+            Products Price:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+           ₹ {{SubTotalPrice}}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      <!-- <ion-row>
+        <ion-col size="6">
+          <p>
+            Tax :
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+           ₹ 0.00
+          </p>
+        </ion-col>
+      </ion-row> -->
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Discount :
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <div *ngIf="DiscountValue  == null">
+            <p>
+             ₹ 0.0
+            </p>
+          </div>
+
+          <div *ngIf="DiscountValue  != null">
+            <p>
+             ₹ {{ V4 }}
+            </p>
+          </div>
+
+          <!-- <div *ngIf="CartItems.cart_items.coupon_detail.DisFla == false">
+            <p>
+              {{ DiscountValue }} %
+            </p>
+          </div>
+
+          <div *ngIf="CartItems.cart_items.coupon_detail.DisFla == true">
+            <p>
+              {{ DiscountValue }} Rs. Flate
+            </p>
+          </div> -->
+
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row>
+        <ion-col size="6">
+          <p>
+            Extra Discount :
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+           ₹ {{EDV}}
+          </p>
+
+
+
+        </ion-col>
+      </ion-row> -->
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Shipping Cost:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+           ₹ {{ShippingCharge}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Total Tax:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            ₹. {{total_tax}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <strong>
+            Total :
+          </strong>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <strong> ₹ {{total_tax * 1 + SubTotalPrice * 1 }}</strong>
+
+
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

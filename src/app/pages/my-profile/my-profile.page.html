@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-label>
+      My Account
+    </ion-label>
+   
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="main_content_div">
+    <div class="back_image" [style.backgroundImage]="'url(assets/pf_img2.png)'">
+    </div>
+    <div class="white_div" [style.backgroundImage]="'url('+photo+')'"></div>
+
+    <div class="content_div">
+      <ion-label class="usernane">{{postData.name}}</ion-label>
+
+      <ion-label class="location">
+        {{postData.email}}
+      </ion-label>
+
+
+      <div class="flex_div">
+        <!-- <ion-label (click)="goToselectRestaurants()">Add Review</ion-label> -->
+        <ion-label (click)="goToEditProfile()">Edit Profile</ion-label>
+        <ion-label (click)="goToAddress()">Manage Address</ion-label>
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+
+</ion-content>

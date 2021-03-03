@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <!-- <ion-menu-button autoHide="false"></ion-menu-button> -->
+    </ion-buttons>
+    <ion-title class="ecom-title">
+      Search Products
+    </ion-title>
+    <ion-buttons slot="end">
+
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon class="cart-badge" name="cart"></ion-icon>
+        <ion-badge>{{total_cart}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content class="content">
+  <form #loginForm="ngForm">
+    <ion-searchbar name="search" placeholder="Search" [(ngModel)]="SelectedFruit" (ngModelChange)="getItems($event)"
+      (ionFocus)="checkFocus('true')">
+    </ion-searchbar>
+  </form>
+  <ion-list *ngIf="showFruitList == true">
+    <ion-item *ngFor="let data of data" (click)="goToProductDetail(data.id)" routerDirection="forward">
+      <ion-avatar slot="start" class="animated flipInX delay-900ms">
+        <img src="https://mjdmart.com/public/product_images/{{data.default_image}}" />
+      </ion-avatar>
+      <ion-label padding>
+        <ion-text>
+          <h2>{{data.product_name}}</h2>
+
+        </ion-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

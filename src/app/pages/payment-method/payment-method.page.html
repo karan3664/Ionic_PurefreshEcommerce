@@ -1,0 +1,229 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title color="light">Order Confirmation</ion-title>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" routerLink="/shipping-address" routerDirection="backward">
+        <ion-icon class="back-icon" slot="icon-only" src="assets/custom-icon-tc-shop/back.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="order-content" *ngIf="CartItems">
+  <ion-card>
+    <ion-card-header>
+      <h4>Shipping Address</h4>
+    </ion-card-header>
+    <ion-card-content class="card-content-single">
+      <p class="para-single-line">
+        {{postData.name}}<br>
+        {{postData.mobile_number}}<br>
+        {{postData.email}}<br>
+        {{postData.address}} {{postData.city}} {{postData.state}} {{postData.pincode}} {{postData.landmark}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+
+
+  <ion-card class="order-product">
+    <ion-card-header>
+      <h4>Products</h4>
+    </ion-card-header>
+    <ion-card-content *ngFor="let list of CartItems?.cart_detail; let i = index">
+
+      <ion-item no-padding lines="none">
+
+        <ion-thumbnail style="height: 50px; width: 50px;"
+          *ngIf="list.product_detail.default_image === null; else elseBlock" slot="start">
+          <img class="img-list" src="assets/diet.svg">
+        </ion-thumbnail>
+
+        <ng-template #elseBlock>
+          <ion-thumbnail style="height: 500px; width: 50px;" slot="start">
+            <img class="img-list" src="https://mjdmart.com/public/product_images/{{list.product_detail.default_image}}">
+
+          </ion-thumbnail>
+        </ng-template>
+
+        <ion-label>
+          <ion-label>
+            <p> {{ list.product_detail.product_name }}</p>
+            <p> {{ list.product_detail.brand_name }}</p>
+            <!-- <p>MRP.: {{CartItems.cart_items.header_item[i].price}} </p>
+            <p>
+              Qty : {{CartItems.cart_items.header_item[i].qty}}
+            </p> -->
+          </ion-label>
+
+          <div *ngIf="CartItems.cart_detail[i].showData == false">
+            <p> Total : {{CartItems.cart_items.header_item[i].qty}} x {{CartItems.cart_items.header_item[i].price}} =
+              ₹. {{CartItems.cart_items.header_item[i].total_price}}
+
+            </p>
+            <div *ngIf="CartItems.cart_items.header_item[i].tax_type !== null"> +
+              {{CartItems.cart_items.header_item[i].total_price_tax}}</div>
+          </div>
+          <div *ngIf="CartItems.cart_detail[i].showData == true">
+            <p> Total : {{CartItems.cart_items.header_item[i].qty}} x {{CartItems.cart_items.header_item[i].price}} =
+              ₹. {{CartItems.cart_items.header_item[i].total_price}}</p>
+            <div *ngIf="CartItems.cart_items.header_item[i].tax_type !== null"> +
+              {{CartItems.cart_items.header_item[i].total_price_tax}}</div>
+            <p>Available in </p>
+
+
+            <ion-label>
+              <p>{{ getpackagename( CartItems.cart_items.header_item[i]) }} x
+                {{ CartItems.cart_items.header_item[i].qty }}
+                ₹. {{ getpackageprice( CartItems.cart_items.header_item[i]) }}
+              </p>
+
+            </ion-label>
+
+
+
+          </div>
+
+        </ion-label>
+
+
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <h4>Sub Total</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row class="row-subtotal">
+        <ion-col size="6">
+          <p>
+            Products Price:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            ₹. {{SubTotalPrice}}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      <!-- <ion-row>
+        <ion-col size="6">
+          <p>
+            Tax :
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            MRP. 0.00
+          </p>
+        </ion-col>
+      </ion-row> -->
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Discount :
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            ₹. {{V4}}
+          </p>
+          <!-- <div *ngIf="CartItems.cart_items.coupon_detail.DisFla == false">
+            <p>
+              {{ DiscountValue }} %
+            </p>
+          </div>
+
+          <div *ngIf="CartItems.cart_items.coupon_detail.DisFla == true">
+            <p>
+              {{ DiscountValue }} Rs. Flate
+            </p>
+          </div> -->
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Extra Discount :
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            ₹. {{EDV}}
+          </p>
+
+
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Shipping Cost:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            ₹ {{ShippingCharge}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Total Tax:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            ₹. {{total_tax}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <strong>
+            Total :
+          </strong>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <strong> ₹ {{total_tax * 1 + SubTotalPrice * 1 }}</strong>
+
+
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+
+
+  <ion-card>
+    <ion-card-header>
+      <h4>Payment Method</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item lines="none">
+          <ion-label>Select Payment Method</ion-label>
+          <ion-select #S [(ngModel)]="payment_Value" (ionChange)="PaymentMethod(S.value)" okText="Select"
+            cancelText="Dismiss">
+
+            <ion-select-option value="cash_on_delivery">Cash On Delivery</ion-select-option>
+            <ion-select-option value="razor_pay">Razor Pay Payment</ion-select-option>
+            <!-- <ion-select-option value="credit">Credit</ion-select-option> -->
+
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer class="order-footer">
+  <ion-button (click)="goToThankYouPage()">
+    Continue
+  </ion-button>
+</ion-footer>

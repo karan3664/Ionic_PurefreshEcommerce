@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title color="light">Category</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToSearchPage()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon class="cart-badge" name="cart-outline"></ion-icon>
+        <ion-badge>{{total_cart}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid no-padding>
+    <ion-row>
+      <ion-col class="col" size="4" *ngFor="let p of Categories">
+        <div>
+
+          <div *ngIf="p.image_name == null" (click)="goToProduct(p.id,p.name_en)">
+
+            <img src="assets/diet.svg"  />
+          </div>
+          <div *ngIf="p.image_name != null" class="img_div">
+            <img src="https://mjdmart.com/public/category_images/{{p.image_name}}"
+              (click)="goToProduct(p.id,p.name_en)" />
+              <p>{{p.name_en}}</p>
+          </div>
+
+
+          
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

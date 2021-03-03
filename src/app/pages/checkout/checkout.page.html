@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item lines="none" class="select-item">
+      <ion-label color="dark">Select Payment Method</ion-label>
+      <ion-select>
+        okText="Ok" cancelText="Cancel">
+        <span *ngFor="let p of paymentMethods">
+          <ion-select-option [value]="p">{{p}}</ion-select-option>
+        </span>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-content>
